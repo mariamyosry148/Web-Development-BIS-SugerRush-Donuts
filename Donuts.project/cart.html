@@ -1,0 +1,57 @@
+<!--Cart.html-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🛒Cart</title>
+    <link rel="stylesheet" href="styleee.css">
+</head>
+<body>
+    <nav>
+        <a href="index.html">🏠Home</a>
+    </nav>
+    <div>  
+        <h1>🛒Your DonutsCart</h1>
+        <div id="cart-items"></div>
+    </div>
+    <div class="image">
+        <img src="images (5).jpeg" alt="Photo" class="top-right-fixed">
+    </div>
+    <script>
+        const cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartContainer = document.getElementById('cart-items');
+
+        function displayCart() {
+        cartContainer.innerHTML = ''; // Clear previous items
+        if (cartItems.length > 0) {
+            cartItems.forEach((item, index) => {
+            const itemElement = document.createElement('div');
+            itemElement.classList.add('cart-item');
+            itemElement.innerHTML = `<p>${item.product} - $${item.price}</p>`;
+            
+            const removeBtn = document.createElement('button');
+            removeBtn.classList.add('remove-btn');
+            removeBtn.textContent = 'Remove';
+            removeBtn.onclick = () => removeFromCart(index);
+            
+            itemElement.appendChild(removeBtn);
+            cartContainer.appendChild(itemElement);
+        });
+        } else {
+        cartContainer.innerHTML = '<p>Your cart is empty.</p>';
+    }
+}
+
+        function removeFromCart(index) {
+            cartItems.splice(index, 1);
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+            displayCart();
+        }
+
+// Display cart items on page load
+        displayCart();
+
+    </script>
+</body>
+</html>
